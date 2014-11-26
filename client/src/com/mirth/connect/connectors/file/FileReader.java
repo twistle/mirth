@@ -73,7 +73,11 @@ public class FileReader extends ConnectorSettingsPanel {
 
         properties.setUsername(usernameField.getText());
         properties.setPassword(new String(passwordField.getPassword()));
-
+        
+        properties.setUseKey(useKeyYes.isSelected());
+        properties.setKeyLocation(keyLocationField.getText());
+        properties.setKeyPassphrase(new String(keyPassphraseField.getPassword()));
+        
         properties.setTimeout(timeoutField.getText());
 
         properties.setSecure(secureModeYes.isSelected());
@@ -202,7 +206,21 @@ public class FileReader extends ConnectorSettingsPanel {
             anonymousNoActionPerformed(null);
             usernameField.setText(props.getUsername());
             passwordField.setText(props.getPassword());
+            if(props.isUseKey())
+            {
+                useKeyYes.setSelected(true);
+                useKeyYesActionPerformed(null);
+                keyLocationField.setText(props.getKeyLocation());
+                keyPassphraseField.setText(props.getKeyPassphrase());
+            }
+            else
+            {
+        	useKeyNo.setSelected(true);
+        	useKeyNoActionPerformed(null);
+            }
         }
+        
+        
 
         timeoutField.setText(props.getTimeout());
 
@@ -310,10 +328,22 @@ public class FileReader extends ConnectorSettingsPanel {
                     usernameField.setBackground(UIConstants.INVALID_COLOR);
                 }
             }
-            if (props.getPassword().length() == 0) {
-                valid = false;
-                if (highlight) {
-                    passwordField.setBackground(UIConstants.INVALID_COLOR);
+            if(props.isUseKey())
+            {
+        	if (props.getKeyLocation().length() == 0) {
+                    valid = false;
+                    if (highlight) {
+                        keyLocationField.setBackground(UIConstants.INVALID_COLOR);
+                    }
+                }
+            }
+            else
+            {
+                if (props.getPassword().length() == 0) {
+                    valid = false;
+                    if (highlight) {
+                        passwordField.setBackground(UIConstants.INVALID_COLOR);
+                    }
                 }
             }
         }
@@ -367,6 +397,7 @@ public class FileReader extends ConnectorSettingsPanel {
         fileSizeMaximumField.setBackground(null);
         usernameField.setBackground(null);
         passwordField.setBackground(null);
+        keyLocationField.setBackground(null);
         timeoutField.setBackground(null);
     }
 
@@ -1114,6 +1145,7 @@ public class FileReader extends ConnectorSettingsPanel {
         passwordLabel.setEnabled(true);
         passwordField.setEnabled(true);
         
+        usePrivateKeyLabel.setEnabled(true);
         useKeyYes.setEnabled(true);
         useKeyNo.setEnabled(true);
         
@@ -1139,6 +1171,7 @@ public class FileReader extends ConnectorSettingsPanel {
         passwordField.setEnabled(false);
         passwordField.setText("anonymous");
         
+        usePrivateKeyLabel.setEnabled(false);
         useKeyYes.setEnabled(false);
         useKeyNo.setEnabled(false);
         
