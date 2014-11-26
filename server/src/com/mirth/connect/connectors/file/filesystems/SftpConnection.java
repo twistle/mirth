@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.Map;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.logging.Log;
@@ -30,6 +31,12 @@ import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.UserInfo;
 import com.mirth.connect.connectors.file.filters.RegexFilenameFilter;
+
+import com.mirth.connect.model.ServerSettings;
+import com.mirth.connect.util.ConfigurationProperty;
+import com.mirth.connect.server.controllers.ControllerException;
+import com.mirth.connect.server.controllers.ControllerFactory;
+import com.mirth.connect.server.controllers.ConfigurationController;
 
 public class SftpConnection implements FileSystemConnection {
 
@@ -102,6 +109,19 @@ public class SftpConnection implements FileSystemConnection {
         client = new ChannelSftp();
 
         try {
+            
+            if(password == null || password.equals("pk"))
+            {
+    		ConfigurationController configurationController = ControllerFactory.getFactory().createConfigurationController();
+        	
+        	Map<String, ConfigurationProperty> settings = configurationController.getConfigurationProperties();
+        	
+        	String pkLocation = settings.get("default_ssh_private_key").getValue();
+    			
+        	jsch.addIdentity(pkLocation);
+            }
+            
+            
             if (port > 0) {
                 session = jsch.getSession(username, host, port);
             } else {
@@ -111,9 +131,17 @@ public class SftpConnection implements FileSystemConnection {
             session.setTimeout(timeout);
 
             UserInfo userInfo = new SftpUserInfo(password);
+            
             session.setUserInfo(userInfo);
             session.connect(timeout);
-
+            
+            if(password == null || password.equals("pk"))
+            {
+                java.util.Properties config = new java.util.Properties();
+                config.put("StrictHostKeyChecking", "no");
+                session.setConfig(config);
+            }
+            
             Channel channel = session.openChannel("sftp");
             channel.connect();
             client = (ChannelSftp) channel;

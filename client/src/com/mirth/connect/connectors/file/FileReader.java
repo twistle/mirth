@@ -479,6 +479,13 @@ public class FileReader extends ConnectorSettingsPanel {
         fileSizeDashLabel = new javax.swing.JLabel();
         fileSizeMaximumField = new com.mirth.connect.client.ui.components.MirthTextField();
         ignoreFileSizeMaximumCheckBox = new com.mirth.connect.client.ui.components.MirthCheckBox();
+        usePrivateKeyLabel = new javax.swing.JLabel();
+        useKeyYes = new com.mirth.connect.client.ui.components.MirthRadioButton();
+        useKeyNo = new com.mirth.connect.client.ui.components.MirthRadioButton();
+        keyLocationLabel = new javax.swing.JLabel();
+        keyLocationField = new com.mirth.connect.client.ui.components.MirthTextField();
+        keyPassphraseLabel = new javax.swing.JLabel();
+        keyPassphraseField = new com.mirth.connect.client.ui.components.MirthPasswordField();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -613,7 +620,6 @@ public class FileReader extends ConnectorSettingsPanel {
         anonymousNo.setBackground(new java.awt.Color(255, 255, 255));
         anonymousNo.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         buttonGroup1.add(anonymousNo);
-        anonymousNo.setSelected(true);
         anonymousNo.setText("No");
         anonymousNo.setToolTipText("Connects to the file using a username and password instead of anonymously.");
         anonymousNo.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -805,39 +811,76 @@ public class FileReader extends ConnectorSettingsPanel {
             }
         });
 
+        usePrivateKeyLabel.setText("Use Private Key:");
+
+        useKeyYes.setBackground(new java.awt.Color(255, 255, 255));
+        useKeyYes.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        buttonGroup1.add(useKeyYes);
+        useKeyYes.setText("Yes");
+        useKeyYes.setToolTipText("Uses a private key stored on the server to connect to the file instead of using a password.");
+        useKeyYes.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        useKeyYes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                useKeyYesActionPerformed(evt);
+            }
+        });
+
+        useKeyNo.setBackground(new java.awt.Color(255, 255, 255));
+        useKeyNo.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        buttonGroup1.add(useKeyNo);
+        useKeyNo.setText("No");
+        useKeyNo.setToolTipText("Connects to the file using a username and password instead of using a private key.");
+        useKeyNo.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        useKeyNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                useKeyNoActionPerformed(evt);
+            }
+        });
+
+        keyLocationLabel.setText("Private Key Path:");
+
+        keyLocationField.setToolTipText("The user name used to gain access to the server.");
+
+        keyPassphraseLabel.setText("Private Key Passphrase:");
+
+        keyPassphraseField.setToolTipText("The password used to gain access to the server.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(hostLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(schemeLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(directoryLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(filenameFilterLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(directoryRecursionLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ignoreDotFilesLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(anonymousLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(usernameLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(passwordLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(timeoutLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(secureModeLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(passiveModeLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(validateConnectionLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(afterProcessingActionLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(moveToDirectoryLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(moveToFileNameLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(moveToFileLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(errorResponseActionLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(errorMoveToDirectoryLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(errorMoveToFileNameLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(checkFileAgeLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(fileAgeLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(fileSizeLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(sortFilesByLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(fileTypeLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(encodingLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(keyPassphraseLabel)
+                    .addComponent(keyLocationLabel)
+                    .addComponent(usePrivateKeyLabel)
+                    .addComponent(hostLabel)
+                    .addComponent(schemeLabel)
+                    .addComponent(directoryLabel)
+                    .addComponent(filenameFilterLabel)
+                    .addComponent(directoryRecursionLabel)
+                    .addComponent(ignoreDotFilesLabel)
+                    .addComponent(anonymousLabel)
+                    .addComponent(usernameLabel)
+                    .addComponent(passwordLabel)
+                    .addComponent(timeoutLabel)
+                    .addComponent(secureModeLabel)
+                    .addComponent(passiveModeLabel)
+                    .addComponent(validateConnectionLabel)
+                    .addComponent(afterProcessingActionLabel)
+                    .addComponent(moveToDirectoryLabel)
+                    .addComponent(moveToFileNameLabel)
+                    .addComponent(moveToFileLabel1)
+                    .addComponent(errorResponseActionLabel)
+                    .addComponent(errorMoveToDirectoryLabel)
+                    .addComponent(errorMoveToFileNameLabel)
+                    .addComponent(checkFileAgeLabel)
+                    .addComponent(fileAgeLabel)
+                    .addComponent(fileSizeLabel)
+                    .addComponent(sortFilesByLabel)
+                    .addComponent(fileTypeLabel)
+                    .addComponent(encodingLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -911,7 +954,13 @@ public class FileReader extends ConnectorSettingsPanel {
                         .addComponent(fileTypeBinary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(fileTypeASCII, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(charsetEncodingCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(charsetEncodingCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(useKeyYes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(useKeyNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(keyLocationField, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(keyPassphraseField, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(62, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -953,12 +1002,25 @@ public class FileReader extends ConnectorSettingsPanel {
                     .addComponent(anonymousNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(usePrivateKeyLabel)
+                    .addComponent(useKeyYes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(useKeyNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usernameLabel)
                     .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordLabel)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(keyLocationLabel)
+                    .addComponent(keyLocationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(keyPassphraseLabel)
+                    .addComponent(keyPassphraseField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(timeoutLabel)
@@ -1040,6 +1102,8 @@ public class FileReader extends ConnectorSettingsPanel {
                     .addComponent(charsetEncodingCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        keyLocationField.getAccessibleContext().setAccessibleDescription("The location of the private key on the server");
     }// </editor-fold>//GEN-END:initComponents
 
     private void anonymousNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anonymousNoActionPerformed
@@ -1049,7 +1113,20 @@ public class FileReader extends ConnectorSettingsPanel {
 
         passwordLabel.setEnabled(true);
         passwordField.setEnabled(true);
-
+        
+        useKeyYes.setEnabled(true);
+        useKeyNo.setEnabled(true);
+        
+        if(useKeyYes.isSelected())
+        {
+            useKeyYesActionPerformed(evt);
+        }
+        else
+        {
+            useKeyNoActionPerformed(evt);
+        }
+        
+        
     }//GEN-LAST:event_anonymousNoActionPerformed
 
     private void anonymousYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anonymousYesActionPerformed
@@ -1061,6 +1138,15 @@ public class FileReader extends ConnectorSettingsPanel {
         passwordLabel.setEnabled(false);
         passwordField.setEnabled(false);
         passwordField.setText("anonymous");
+        
+        useKeyYes.setEnabled(false);
+        useKeyNo.setEnabled(false);
+        
+        keyLocationLabel.setEnabled(false);
+        keyLocationField.setEnabled(false);
+        keyPassphraseLabel.setEnabled(false);
+        keyPassphraseField.setEnabled(false);
+        
 
     }//GEN-LAST:event_anonymousYesActionPerformed
 
@@ -1225,6 +1311,31 @@ public class FileReader extends ConnectorSettingsPanel {
         fileSizeMaximumField.setEnabled(!ignoreFileSizeMaximumCheckBox.isSelected());
     }//GEN-LAST:event_ignoreFileSizeMaximumCheckBoxActionPerformed
 
+    private void useKeyYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useKeyYesActionPerformed
+        // TODO add your handling code here:
+        passwordLabel.setEnabled(false);
+        passwordField.setEnabled(false);
+        
+        keyLocationField.setEnabled(true);
+        keyPassphraseField.setEnabled(true);
+        keyPassphraseLabel.setEnabled(true);
+        keyPassphraseField.setEnabled(true);
+        
+        
+    }//GEN-LAST:event_useKeyYesActionPerformed
+
+    private void useKeyNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_useKeyNoActionPerformed
+        // TODO add your handling code here:
+        passwordLabel.setEnabled(true);
+        passwordField.setEnabled(true);
+        
+        keyLocationField.setEnabled(false);
+        keyPassphraseField.setEnabled(false);
+        keyPassphraseLabel.setEnabled(false);
+        keyPassphraseField.setEnabled(false);
+        
+    }//GEN-LAST:event_useKeyNoActionPerformed
+
     private void updateErrorFields() {
         FileAction readAction = (FileAction) errorReadingActionComboBox.getSelectedItem();
         FileAction responseAction = (FileAction) errorResponseActionComboBox.getSelectedItem();
@@ -1307,6 +1418,10 @@ public class FileReader extends ConnectorSettingsPanel {
     private com.mirth.connect.client.ui.components.MirthRadioButton ignoreDotFilesYesRadio;
     private com.mirth.connect.client.ui.components.MirthCheckBox ignoreFileSizeMaximumCheckBox;
     private javax.swing.JScrollPane jScrollPane1;
+    private com.mirth.connect.client.ui.components.MirthTextField keyLocationField;
+    private javax.swing.JLabel keyLocationLabel;
+    private com.mirth.connect.client.ui.components.MirthPasswordField keyPassphraseField;
+    private javax.swing.JLabel keyPassphraseLabel;
     private com.mirth.connect.client.ui.components.MirthVariableList mirthVariableList1;
     private com.mirth.connect.client.ui.components.MirthTextField moveToDirectoryField;
     private javax.swing.JLabel moveToDirectoryLabel;
@@ -1330,6 +1445,9 @@ public class FileReader extends ConnectorSettingsPanel {
     private javax.swing.JButton testConnection;
     private com.mirth.connect.client.ui.components.MirthTextField timeoutField;
     private javax.swing.JLabel timeoutLabel;
+    private com.mirth.connect.client.ui.components.MirthRadioButton useKeyNo;
+    private com.mirth.connect.client.ui.components.MirthRadioButton useKeyYes;
+    private javax.swing.JLabel usePrivateKeyLabel;
     private com.mirth.connect.client.ui.components.MirthTextField usernameField;
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JLabel validateConnectionLabel;
