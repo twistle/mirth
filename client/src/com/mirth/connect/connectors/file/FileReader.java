@@ -1316,8 +1316,8 @@ public class FileReader extends ConnectorSettingsPanel {
         passwordLabel.setEnabled(false);
         passwordField.setEnabled(false);
         
+        keyLocationLabel.setEnabled(true);
         keyLocationField.setEnabled(true);
-        keyPassphraseField.setEnabled(true);
         keyPassphraseLabel.setEnabled(true);
         keyPassphraseField.setEnabled(true);
         
@@ -1329,8 +1329,8 @@ public class FileReader extends ConnectorSettingsPanel {
         passwordLabel.setEnabled(true);
         passwordField.setEnabled(true);
         
+        keyLocationLabel.setEnabled(false);
         keyLocationField.setEnabled(false);
-        keyPassphraseField.setEnabled(false);
         keyPassphraseLabel.setEnabled(false);
         keyPassphraseField.setEnabled(false);
         
