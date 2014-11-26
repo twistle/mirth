@@ -34,9 +34,6 @@ import com.mirth.connect.connectors.file.filters.RegexFilenameFilter;
 
 import com.mirth.connect.model.ServerSettings;
 import com.mirth.connect.util.ConfigurationProperty;
-import com.mirth.connect.server.controllers.ControllerException;
-import com.mirth.connect.server.controllers.ControllerFactory;
-import com.mirth.connect.server.controllers.ConfigurationController;
 
 public class SftpConnection implements FileSystemConnection {
 
@@ -103,24 +100,25 @@ public class SftpConnection implements FileSystemConnection {
     private Session session = null;
     private String lastDir = null;
 
-    public SftpConnection(String host, int port, String username, String password, int timeout) throws Exception {
+    public SftpConnection(String host, int port, String username, String password, String keyLocation, String keyPassphase, int timeout) throws Exception {
 
         JSch jsch = new JSch();
         client = new ChannelSftp();
 
         try {
             
-            if(password == null || password.equals("pk"))
+            // if a private key is configured for this connection, add the identity to jsch
+            if(keyLocation != null && keyLocation.length() > 0)
             {
-    		ConfigurationController configurationController = ControllerFactory.getFactory().createConfigurationController();
-        	
-        	Map<String, ConfigurationProperty> settings = configurationController.getConfigurationProperties();
-        	
-        	String pkLocation = settings.get("default_ssh_private_key").getValue();
-    			
-        	jsch.addIdentity(pkLocation);
+    		if(keyPassphase != null && keyPassphase.length() > 0)
+                {
+    		    jsch.addIdentity(keyLocation, keyPassphase);
+                }
+    		else
+    		{
+    		jsch.addIdentity(keyLocation);
+    		}
             }
-            
             
             if (port > 0) {
                 session = jsch.getSession(username, host, port);
@@ -135,7 +133,8 @@ public class SftpConnection implements FileSystemConnection {
             session.setUserInfo(userInfo);
             session.connect(timeout);
             
-            if(password == null || password.equals("pk"))
+            // if a private key is configured for this connection, turn off strict host key checking
+            if(keyLocation != null && keyLocation.length() > 0)
             {
                 java.util.Properties config = new java.util.Properties();
                 config.put("StrictHostKeyChecking", "no");

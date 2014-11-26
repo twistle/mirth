@@ -272,18 +272,24 @@ public class FileConnector {
     private synchronized ObjectPool getConnectionPool(URI uri, ConnectorMessage message, ConnectorProperties connectorProperties) throws Exception {
         String username;
         String password;
-
+        String keyLocation;
+        String keyPassphrase;
+        
         if (connectorProperties instanceof FileReceiverProperties) {
             FileReceiverProperties fileReceiverProperties = (FileReceiverProperties) connectorProperties;
             username = fileReceiverProperties.getUsername();
             password = fileReceiverProperties.getPassword();
+            keyLocation = fileReceiverProperties.getKeyLocation();
+            keyPassphrase = fileReceiverProperties.getKeyPassphrase();
         } else {
             FileDispatcherProperties fileDispatcherProperties = (FileDispatcherProperties) connectorProperties;
             username = fileDispatcherProperties.getUsername();
             password = fileDispatcherProperties.getPassword();
+            keyLocation = fileDispatcherProperties.getKeyLocation();
+            keyPassphrase = fileDispatcherProperties.getKeyPassphrase();
         }
 
-        FileSystemConnectionFactory fileSystemConnectionFactory = getFileSystemConnectionFactory(uri, username, password, connectorProperties);
+        FileSystemConnectionFactory fileSystemConnectionFactory = getFileSystemConnectionFactory(uri, username, password, keyLocation, keyPassphrase, connectorProperties);
         String key = fileSystemConnectionFactory.getPoolKey();
         ObjectPool pool = pools.get(key);
 
@@ -300,8 +306,8 @@ public class FileConnector {
         return pool;
     }
 
-    protected FileSystemConnectionFactory getFileSystemConnectionFactory(URI uri, String username, String password, ConnectorProperties connectorProperties) throws Exception {
-        return new FileSystemConnectionFactory(getScheme(), username, password, uri.getHost(), uri.getPort(), isPassive(), isSecure(), NumberUtils.toInt(getTimeout()));
+    protected FileSystemConnectionFactory getFileSystemConnectionFactory(URI uri, String username, String password, String keyLocation, String keyPassphrase, ConnectorProperties connectorProperties) throws Exception {
+        return new FileSystemConnectionFactory(getScheme(), username, password, keyLocation, keyPassphrase, uri.getHost(), uri.getPort(), isPassive(), isSecure(), NumberUtils.toInt(getTimeout()));
     }
 
     /**

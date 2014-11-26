@@ -24,7 +24,7 @@ public class DocumentWriterService implements ConnectorService {
             DocumentDispatcherProperties props = (DocumentDispatcherProperties) object;
             String directory = replacer.replaceValues(props.getHost(), channelId);
 
-            FileSystemConnectionFactory factory = new FileSystemConnectionFactory(FileScheme.FILE, null, null, directory, 0, false, false, 0);
+            FileSystemConnectionFactory factory = new FileSystemConnectionFactory(FileScheme.FILE, null, null, null, null, directory, 0, false, false, 0);
             FileSystemConnection connection = null;
 
             try {

@@ -31,6 +31,9 @@ public class FileDispatcherProperties extends ConnectorProperties implements Des
     private boolean anonymous;
     private String username;
     private String password;
+    private boolean useKey;
+    private String keyLocation;
+    private String keyPassphrase;
     private String timeout;
     private boolean secure;
     private boolean passive;
@@ -51,6 +54,9 @@ public class FileDispatcherProperties extends ConnectorProperties implements Des
         anonymous = true;
         username = "anonymous";
         password = "anonymous";
+        useKey = false;
+        keyLocation = "";
+        keyPassphrase = "";
         timeout = "10000";
         secure = true;
         passive = true;
@@ -73,6 +79,9 @@ public class FileDispatcherProperties extends ConnectorProperties implements Des
         anonymous = props.isAnonymous();
         username = props.getUsername();
         password = props.getPassword();
+        useKey = props.isUseKey();
+        keyLocation = props.getKeyLocation();
+        keyPassphrase = props.getKeyPassphrase();
         timeout = props.getTimeout();
         secure = props.isSecure();
         passive = props.isPassive();
@@ -116,7 +125,7 @@ public class FileDispatcherProperties extends ConnectorProperties implements Des
     public void setAnonymous(boolean anonymous) {
         this.anonymous = anonymous;
     }
-
+    
     public String getUsername() {
         return username;
     }
@@ -131,6 +140,30 @@ public class FileDispatcherProperties extends ConnectorProperties implements Des
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public boolean isUseKey() {
+        return useKey;
+    }
+
+    public void setUseKey(boolean useKey) {
+        this.useKey = useKey;
+    }
+
+    public String getKeyLocation() {
+        return keyLocation;
+    }
+
+    public void setKeyLocation(String keyLocation) {
+        this.keyLocation = keyLocation;
+    }
+
+    public String getKeyPassphrase() {
+        return keyPassphrase;
+    }
+
+    public void setKeyPassphrase(String keyPassphrase) {
+        this.keyPassphrase = keyPassphrase;
     }
 
     public String getTimeout() {

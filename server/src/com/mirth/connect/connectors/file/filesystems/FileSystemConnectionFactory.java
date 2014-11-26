@@ -26,6 +26,8 @@ public class FileSystemConnectionFactory implements PoolableObjectFactory {
     protected FileScheme scheme;
     protected String username;
     protected String password;
+    protected String keyLocation;
+    protected String keyPassphrase;
     protected String host;
     protected int port;
     protected boolean passive;
@@ -35,10 +37,12 @@ public class FileSystemConnectionFactory implements PoolableObjectFactory {
     /**
      * Construct a FileSystemConnectionFactory from the endpoint URI and connector properties
      */
-    public FileSystemConnectionFactory(FileScheme scheme, String username, String password, String host, int port, boolean passive, boolean secure, int timeout) {
+    public FileSystemConnectionFactory(FileScheme scheme, String username, String password, String keyLocation, String keyPassphrase, String host, int port, boolean passive, boolean secure, int timeout) {
         this.scheme = scheme;
         this.username = username;
         this.password = password;
+        this.keyLocation = keyLocation;
+        this.keyPassphrase = keyPassphrase;
         this.host = host;
         this.port = port;
         this.passive = passive;
@@ -55,7 +59,7 @@ public class FileSystemConnectionFactory implements PoolableObjectFactory {
         } else if (scheme.equals(FileScheme.FTP)) {
             return "ftp://" + username + ":" + password + "@" + host + ":" + port;
         } else if (scheme.equals(FileScheme.SFTP)) {
-            return "sftp://" + username + ":" + password + "@" + host + ":" + port;
+            return "sftp://" + username + ":" + password + keyLocation + "@" + host + ":" + port;
         } else if (scheme.equals(FileScheme.SMB)) {
             return "smb://" + username + ":" + password + "@" + host + ":" + port;
         } else if (scheme.equals(FileScheme.WEBDAV)) {
@@ -92,7 +96,7 @@ public class FileSystemConnectionFactory implements PoolableObjectFactory {
         } else if (scheme.equals(FileScheme.FTP)) {
             return new FtpConnection(host, port, username, password, passive, timeout);
         } else if (scheme.equals(FileScheme.SFTP)) {
-            return new SftpConnection(host, port, username, password, timeout);
+            return new SftpConnection(host, port, username, password, keyLocation, keyPassphrase, timeout);
         } else if (scheme.equals(FileScheme.SMB)) {
             return new SmbFileConnection(host, username, password, timeout);
         } else if (scheme.equals(FileScheme.WEBDAV)) {

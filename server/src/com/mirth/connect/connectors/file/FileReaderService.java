@@ -27,6 +27,8 @@ public class FileReaderService implements ConnectorService {
             String host = replacer.replaceValues(connectorProperties.getHost(), channelId);
             String username = replacer.replaceValues(connectorProperties.getUsername(), channelId);
             String password = replacer.replaceValues(connectorProperties.getPassword(), channelId);
+            String keyLocation = replacer.replaceValues(connectorProperties.getKeyLocation(), channelId);
+            String keyPassphrase = replacer.replaceValues(connectorProperties.getKeyPassphrase(), channelId);
 
             String fileHost = null;
             FileScheme scheme = connectorProperties.getScheme();
@@ -64,7 +66,7 @@ public class FileReaderService implements ConnectorService {
                 dir = address.getPath();
             }
 
-            FileSystemConnectionFactory factory = new FileSystemConnectionFactory(scheme, username, password, addressHost, port, passive, secure, timeout);
+            FileSystemConnectionFactory factory = new FileSystemConnectionFactory(scheme, username, password, keyLocation, keyPassphrase, addressHost, port, passive, secure, timeout);
 
             FileSystemConnection connection = null;
 

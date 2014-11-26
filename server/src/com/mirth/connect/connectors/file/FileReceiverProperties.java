@@ -38,6 +38,9 @@ public class FileReceiverProperties extends ConnectorProperties implements PollC
     private boolean anonymous;
     private String username;
     private String password;
+    private boolean useKey;
+    private String keyLocation;
+    private String keyPassphrase;
     private String timeout;
     private boolean secure;
     private boolean passive;
@@ -76,6 +79,9 @@ public class FileReceiverProperties extends ConnectorProperties implements PollC
         username = "anonymous";
         password = "anonymous";
         timeout = "10000";
+        useKey = false;
+        keyLocation = "";
+        keyPassphrase = "";
         secure = true;
         passive = true;
         validateConnection = true;
@@ -166,6 +172,30 @@ public class FileReceiverProperties extends ConnectorProperties implements PollC
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public boolean isUseKey() {
+        return useKey;
+    }
+
+    public void setUseKey(boolean useKey) {
+        this.useKey = useKey;
+    }
+
+    public String getKeyLocation() {
+        return keyLocation;
+    }
+
+    public void setKeyLocation(String keyLocation) {
+        this.keyLocation = keyLocation;
+    }
+
+    public String getKeyPassphrase() {
+        return keyPassphrase;
+    }
+
+    public void setKeyPassphrase(String keyPassphrase) {
+        this.keyPassphrase = keyPassphrase;
     }
 
     public String getTimeout() {
