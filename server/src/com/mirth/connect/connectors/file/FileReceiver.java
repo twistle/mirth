@@ -88,10 +88,12 @@ public class FileReceiver extends PollConnector {
 
         this.charsetEncoding = CharsetUtils.getEncoding(connectorProperties.getCharsetEncoding(), System.getProperty("ca.uhn.hl7v2.llp.charset"));
 
-        // Replace variables in the readDir, username, and password now, all others will be done every message
+        // Replace variables in the readDir, username, password, and key location/pf now, all others will be done every message
         connectorProperties.setHost(replacer.replaceValues(connectorProperties.getHost(), getChannelId()));
         connectorProperties.setUsername(replacer.replaceValues(connectorProperties.getUsername(), getChannelId()));
         connectorProperties.setPassword(replacer.replaceValues(connectorProperties.getPassword(), getChannelId()));
+        connectorProperties.setKeyLocation(replacer.replaceValues(connectorProperties.getKeyLocation(), getChannelId()));
+        connectorProperties.setKeyPassphrase(replacer.replaceValues(connectorProperties.getKeyPassphrase(), getChannelId()));
 
         // Load the default configuration
         String configurationClass = configurationController.getProperty(connectorProperties.getProtocol(), "fileConfigurationClass");

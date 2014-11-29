@@ -101,6 +101,8 @@ public class FileDispatcher extends DestinationConnector {
         fileDispatcherProperties.setOutputPattern(replacer.replaceValues(fileDispatcherProperties.getOutputPattern(), connectorMessage));
         fileDispatcherProperties.setUsername(replacer.replaceValues(fileDispatcherProperties.getUsername(), connectorMessage));
         fileDispatcherProperties.setPassword(replacer.replaceValues(fileDispatcherProperties.getPassword(), connectorMessage));
+        fileDispatcherProperties.setKeyLocation(replacer.replaceValues(fileDispatcherProperties.getKeyLocation(), connectorMessage));
+        fileDispatcherProperties.setKeyPassphrase(replacer.replaceValues(fileDispatcherProperties.getKeyPassphrase(), connectorMessage));
         fileDispatcherProperties.setTemplate(replacer.replaceValues(fileDispatcherProperties.getTemplate(), connectorMessage));
     }
 
