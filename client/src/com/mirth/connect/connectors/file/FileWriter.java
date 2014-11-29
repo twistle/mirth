@@ -164,11 +164,22 @@ public class FileWriter extends ConnectorSettingsPanel {
             anonymousNo.setSelected(false);
             anonymousYesActionPerformed(null);
         } else {
-            anonymousYes.setSelected(false);
             anonymousNo.setSelected(true);
             anonymousNoActionPerformed(null);
             usernameField.setText(props.getUsername());
             passwordField.setText(props.getPassword());
+            if(props.isUseKey())
+            {
+                useKeyYes.setSelected(true);
+                useKeyYesActionPerformed(null);
+                keyLocationField.setText(props.getKeyLocation());
+                keyPassphraseField.setText(props.getKeyPassphrase());
+            }
+            else
+            {
+        	useKeyNo.setSelected(true);
+        	useKeyNoActionPerformed(null);
+            }
         }
 
         timeoutField.setText(props.getTimeout());
